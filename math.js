@@ -21,5 +21,6 @@ function order(cs,mode='amplitude'){return [...cs].sort(mode==='frequency'?(a,b)
 function evaluate(cs,t){let x=0,y=0;for(const c of cs){const a=TAU*c.freq*t,co=Math.cos(a),si=Math.sin(a);x+=c.re*co-c.im*si;y+=c.re*si+c.im*co;}return {x,y};}
 function reconstruct(cs,n){const re=new Array(n).fill(0),im=new Array(n).fill(0);for(const c of cs){const k=(c.freq%n+n)%n;re[k]+=c.re*n;im[k]+=c.im*n;}fft(re,im,true);return re.map((x,i)=>({x,y:im[i]}));}
 function metrics(all,selected){const energy=all.reduce((s,c)=>s+c.amp*c.amp,0),kept=selected.reduce((s,c)=>s+c.amp*c.amp,0);return {energy:energy?kept/energy:1,rms:Math.sqrt(Math.max(0,energy-kept))};}
-const api={TAU,fft,normalize,resample,coefficients,order,evaluate,reconstruct,metrics};if(typeof module!=='undefined')module.exports=api;root.Fourier=api;
+function displayIndices(n,pen,limit=6000){if(n<=0)return[];const keep=new Set([0,n-1]),step=Math.max(1,Math.ceil(n/limit));for(let i=0;i<n;i+=step)keep.add(i);if(pen)for(let i=0;i<n-1;i++)if(pen[i]!==pen[i+1]){keep.add(i);keep.add(i+1);keep.add(Math.min(n-1,i+2));}return [...keep].sort((a,b)=>a-b);}
+const api={TAU,fft,normalize,resample,coefficients,order,evaluate,reconstruct,metrics,displayIndices};if(typeof module!=='undefined')module.exports=api;root.Fourier=api;
 })(typeof globalThis==='undefined'?window:globalThis);

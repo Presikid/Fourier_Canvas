@@ -16,7 +16,12 @@
  <h3>动画与分析</h3><button id="recordPanel" class="wide">◉ 导出动画（WebM）</button><button id="exportCsvPanel" class="wide">↓ 导出全部傅里叶系数（CSV）</button><p class="hint">动画从头录制一周期，保持页面在前台。系数 CSV 用于分析，不能作为坐标文件导入。</p>
  </section>
  <div class="divider"></div><div class="panel-title"><span>02 / 傅里叶分解</span><small>TRANSFORM</small></div>
- <label>采样点数 <select id="samples"><option>128</option><option>256</option><option selected>512</option><option>1024</option><option>2048</option><option>4096</option></select></label>
+ <label>采样预设 <select id="samples"><option>128</option><option>256</option><option selected>512</option><option>1024</option><option>2048</option><option>4096</option><option>8192</option><option>16384</option><option>32768</option><option>65536</option><option>131072</option><option>262144</option></select></label>
+ <label>输入采样点数<input id="sampleNumber" type="number" min="128" max="262144" step="1" value="512"></label>
+ <div class="two"><label>滑动条最小值<input id="sampleMin" type="number" min="128" max="262144" step="1" value="128"></label><label>滑动条最大值<input id="sampleMax" type="number" min="128" max="262144" step="1" value="262144"></label></div>
+ <label class="range-label">滑动调节采样点数 <output id="sampleLabel">512 点</output></label><input id="sampleSlider" type="range" min="7" max="18" step="1" value="9" aria-label="采样点数" aria-valuetext="512 点">
+ <div class="sample-bounds"><span id="sampleLowLabel">128</span><span id="sampleHighLabel">262144</span></div>
+ <p class="hint">支持 128–262144 点。FFT 使用 2 的整数次幂档位；输入的点数会向上取到可用档位。自定义范围内至少需包含一个档位。增加采样点能减小采样误差；恢复细节还需增加旋转向量数量。</p>
  <label class="range-label">旋转向量数量 <output id="harmonicsLabel">80</output></label><input id="harmonics" type="range" min="1" max="512" value="80"><div class="two"><label>精确数量<input id="harmonicNumber" type="number" min="1" max="512" value="80"></label><label>选择顺序<select id="sort"><option value="amplitude">振幅从大到小</option><option value="frequency">低频优先</option></select></label></div>
  <label class="check"><input id="autoEnergy" type="checkbox">自动选择向量（保留 99% 成分）</label><label class="check"><input id="penLift" type="checkbox" checked>隐藏笔画间的连接线</label>
  <div class="energy-card"><div><span>傅里叶成分保留率</span><b id="energy">—</b></div><div class="energy-track"><i id="energyBar"></i></div><p class="hint">按旋转向量长度的平方加权计算。数值越高，通常保留的细节越多；不表示图形相似度，也不是向量数量比例。</p><small>曲线偏差 <b id="rms">—</b></small><p class="hint">偏差越小，重建的采样点越接近原曲线。按统一缩放后的坐标计算均方根误差（RMS），单位不是屏幕像素。</p></div>
