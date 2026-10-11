@@ -25,13 +25,15 @@ jobs:
         run: |
           node --check app.js
           node --check math.js
+          node --check transform-worker.js
           node --check preset-data.js
+          node --check detail-preset.js
           node --test tests/*.test.cjs
       - uses: actions/configure-pages@v5
       - name: Package static website
         run: |
           mkdir _site
-          cp index.html app.js math.js preset-data.js style.css icon.svg _site/
+          cp index.html app.js math.js transform-worker.js preset-data.js detail-preset.js style.css icon.svg _site/
           cp -r assets _site/
       - uses: actions/upload-pages-artifact@v3
         with:
